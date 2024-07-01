@@ -1,0 +1,217 @@
+DROP TABLE IF EXISTS `sql-workspace-412218.Homelessness_Case_Study.MO_TOTALS`;
+CREATE TABLE `sql-workspace-412218.Homelessness_Case_Study.MO_TOTALS` 
+  (
+   year INT64
+  ,total_unhoused INT64
+  ,total_beds INT64
+  ,sheltered_total INT64
+  ,unsheltered_total INT64
+  ,total_emergency_overflow_beds INT64
+  ,under_eighteen INT64
+  ,eighteen_to_twenty_four INT64
+  ,over_twenty_four INT64
+  );
+
+INSERT INTO `sql-workspace-412218.Homelessness_Case_Study.MO_TOTALS` 
+  values
+  -- Ages over 24 fields are added together for the PIT_2023 table. 
+    (
+     2023 
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless) AS INT64)                FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2023`   WHERE state='MO')
+    ,(SELECT Total_Year_Round_Beds__ES__TH__SH_                            FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2023`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Sheltered_Total_Homeless) AS INT64)        FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2023`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Unsheltered_Homeless) AS INT64)            FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2023`   WHERE state='MO')
+    ,(SELECT Total_Overflow_Beds__ES_                                      FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2023`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Under_18) AS INT64)     FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2023`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Age_18_to_24) AS INT64) FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2023`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___AGE_25_to_34) AS INT64)+CAST(PARSE_NUMERIC(Overall_Homeless___AGE_35_to_44) AS INT64)+
+             CAST(PARSE_NUMERIC(Overall_Homeless___AGE_45_to_54) AS INT64)+CAST(PARSE_NUMERIC(Overall_Homeless___AGE_55_to_64) AS INT64)+
+             CAST(PARSE_NUMERIC(Overall_Homeless___Over_64) AS INT64)      FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2023`   WHERE state='MO')
+    ),
+    --All Ages above 24 become grouped in the PIT_2022 table and the preceding PIT_years.
+    (
+     2022 
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless) AS INT64)                FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2022`   WHERE state='MO')
+    ,(SELECT Total_Year_Round_Beds__ES__TH__SH_                            FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2022`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Sheltered_Total_Homeless) AS INT64)        FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2022`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Unsheltered_Homeless) AS INT64)            FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2022`   WHERE state='MO')
+    ,(SELECT Total_Overflow_Beds__ES_                                      FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2022`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Under_18) AS INT64)     FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2022`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Age_18_to_24) AS INT64) FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2022`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Over_24) AS INT64)      FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2022`   WHERE state='MO')
+    ),     
+    (   
+     2021 
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless) AS INT64)                FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2021`   WHERE state='MO')
+    ,(SELECT Total_Year_Round_Beds__ES__TH__SH_                            FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2021`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Sheltered_Total_Homeless) AS INT64)        FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2021`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Unsheltered_Homeless) AS INT64)            FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2021`   WHERE state='MO')
+    ,(SELECT Total_Overflow_Beds__ES_                                      FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2021`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Under_18) AS INT64)     FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2021`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Age_18_to_24) AS INT64) FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2021`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Over_24) AS INT64)      FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2021`   WHERE state='MO')
+    ),
+    (    
+     2020 
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless) AS INT64)                FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2020`   WHERE state='MO')
+    ,(SELECT Total_Year_Round_Beds__ES__TH__SH_                            FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2020`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Sheltered_Total_Homeless) AS INT64)        FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2020`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Unsheltered_Homeless) AS INT64)            FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2020`   WHERE state='MO')
+    ,(SELECT Total_Overflow_Beds__ES_                                      FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2020`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Under_18) AS INT64)     FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2020`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Age_18_to_24) AS INT64) FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2020`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Over_24) AS INT64)      FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2020`   WHERE state='MO')
+    ),  
+    (    
+     2019 
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless) AS INT64)                FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2019`   WHERE state='MO')
+    ,(SELECT Total_Year_Round_Beds__ES__TH__SH_                            FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2019`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Sheltered_Total_Homeless) AS INT64)        FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2019`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Unsheltered_Homeless) AS INT64)            FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2019`   WHERE state='MO')
+    ,(SELECT Total_Overflow_Beds__ES_                                      FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2019`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Under_18) AS INT64)     FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2019`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Age_18_to_24) AS INT64) FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2019`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Over_24) AS INT64)      FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2019`   WHERE state='MO')
+    ),  
+    (    
+     2018 
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless) AS INT64)                FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2018`   WHERE state='MO')
+    ,(SELECT Total_Year_Round_Beds__ES__TH__SH_                            FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2018`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Sheltered_Total_Homeless) AS INT64)        FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2018`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Unsheltered_Homeless) AS INT64)            FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2018`   WHERE state='MO')
+    ,(SELECT Total_Overflow_Beds__ES_                                      FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2018`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Under_18) AS INT64)     FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2018`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Age_18_to_24) AS INT64) FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2018`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Over_24) AS INT64)      FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2018`   WHERE state='MO')
+    ),
+    (
+     2017 
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless) AS INT64)                FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2017`   WHERE state='MO')
+    ,(SELECT Total_Year_Round_Beds__ES__TH__SH_                            FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2017`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Sheltered_Total_Homeless) AS INT64)        FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2017`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Unsheltered_Homeless) AS INT64)            FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2017`   WHERE state='MO')
+    ,(SELECT Total_Overflow_Beds__ES_                                      FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2017`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Under_18) AS INT64)     FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2017`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Age_18_to_24) AS INT64) FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2017`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Over_24) AS INT64)      FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2017`   WHERE state='MO')
+    ),
+    (
+     2016 
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless) AS INT64)                FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2016`   WHERE state='MO')
+    ,(SELECT Total_Year_Round_Beds__ES__TH__SH_                            FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2016`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Sheltered_Total_Homeless) AS INT64)        FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2016`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Unsheltered_Homeless) AS INT64)            FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2016`   WHERE state='MO')
+    ,(SELECT Total_Overflow_Beds__ES_                                      FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2016`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Under_18) AS INT64)     FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2016`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Age_18_to_24) AS INT64) FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2016`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Over_24) AS INT64)      FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2016`   WHERE state='MO')
+    ),
+    (
+     2015 
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless) AS INT64)                FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2015`   WHERE state='MO')
+    ,(SELECT Total_Year_Round_Beds__ES__TH__SH_                            FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2015`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Sheltered_Total_Homeless) AS INT64)        FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2015`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Unsheltered_Homeless) AS INT64)            FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2015`   WHERE state='MO')
+    ,(SELECT Total_Overflow_Beds__ES_                                      FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2015`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Under_18) AS INT64)     FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2015`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Age_18_to_24) AS INT64) FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2015`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Over_24) AS INT64)      FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2015`   WHERE state='MO')
+    ),
+    (
+     2014 
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless) AS INT64)                FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2014`   WHERE state='MO')
+    ,(SELECT Total_Year_Round_Beds__ES__TH__SH_                            FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2014`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Sheltered_Total_Homeless) AS INT64)        FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2014`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Unsheltered_Homeless) AS INT64)            FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2014`   WHERE state='MO')
+    ,(SELECT Total_Overflow_Beds__ES_                                      FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2014`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Under_18) AS INT64)     FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2014`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Age_18_to_24) AS INT64) FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2014`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Over_24) AS INT64)      FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2014`   WHERE state='MO')
+    ),
+    /* HIC_2013 uniquely includes Rapid Rehousing (RRH) beds in the Total beds count, RRH beds are subtracted from the total count. Overflow beds field 
+    name has slight change from later HIC_years.  */
+    (
+     2013 
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless) AS INT64)                FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2013`   WHERE state='MO')
+    ,(SELECT Total_Year_Round_Beds__ES_TH_RRH_SH_ - Total_Rapid_Rehousing__RRH__Beds    
+                                                                           FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2013`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Sheltered_Total_Homeless) AS INT64)        FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2013`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Unsheltered_Homeless) AS INT64)            FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2013`   WHERE state='MO')
+    ,(SELECT Total_Overflow_ES_Beds                                        FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2013`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Under_18) AS INT64)     FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2013`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Age_18_to_24) AS INT64) FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2013`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless___Over_24) AS INT64)      FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2013`   WHERE state='MO')
+    );
+    -- Sufficient age field data does not exist in the PIT_2012 tabe and preceding PIT_years. New INSERT INTO statement to account for six fields.
+
+INSERT INTO `sql-workspace-412218.Homelessness_Case_Study.MO_TOTALS`
+  (
+   year
+  ,total_unhoused
+  ,total_beds
+  ,sheltered_total
+  ,unsheltered_total
+  ,total_emergency_overflow_beds
+  )
+  values
+    (
+     2012 
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless) AS INT64)                FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2012`   WHERE state='MO')
+    ,(SELECT Total_Year_Round_Beds__ES_TH_SH_                              FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2012`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Sheltered_Total_Homeless) AS INT64)        FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2012`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Unsheltered_Homeless) AS INT64)            FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2012`   WHERE state='MO')
+    ,(SELECT Total_Overflow_ES_Beds                                        FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2012`   WHERE state='MO')
+    ),
+    (
+     2011 
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless) AS INT64)                FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2011`   WHERE state='MO')
+    ,(SELECT Total_Year_Round_Beds__ES_TH_SH_                              FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2011`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Sheltered_Total_Homeless) AS INT64)        FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2011`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Unsheltered_Homeless) AS INT64)            FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2011`   WHERE state='MO')
+    ,(SELECT Total_Overflow_ES_Beds                                        FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2011`   WHERE state='MO')
+    ), 
+    --HIC_2010 overflow beds field name has slight name change from later HIC_years.   
+    (
+     2010 
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless) AS INT64)                FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2010`   WHERE state='MO')
+    ,(SELECT Total_Year_Round_Beds__ES_TH_SH_                              FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2010`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Sheltered_Total_Homeless) AS INT64)        FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2010`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Unsheltered_Homeless) AS INT64)            FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2010`   WHERE state='MO')
+    ,(SELECT Total_Overflow_Voucher_ES_Beds                                FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2010`   WHERE state='MO')
+    ),    
+    (
+     2009 
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless) AS INT64)                FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2009`   WHERE state='MO')
+    ,(SELECT Total_Year_Round_Beds__ES_TH_SH_                              FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2009`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Sheltered_Total_Homeless) AS INT64)        FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2009`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Unsheltered_Homeless) AS INT64)            FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2009`   WHERE state='MO')
+    ,(SELECT Total_Overflow_Voucher_ES_Beds                                FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2009`   WHERE state='MO')
+    ),
+    (    
+     2008 
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless) AS INT64)                FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2008`   WHERE state='MO')
+    ,(SELECT Total_Year_Round_Beds__ES_TH_SH_                              FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2008`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Sheltered_Total_Homeless) AS INT64)        FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2008`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Unsheltered_Homeless) AS INT64)            FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2008`   WHERE state='MO')
+    ,(SELECT Total_Overflow_Voucher_ES_Beds                                FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2008`   WHERE state='MO')
+    );
+  --HIC_2007 total beds field does not account for save haven beds. The total bed count is dropped for HIC_2007 analysis. New INSERT INTO for five fields
+  INSERT INTO `sql-workspace-412218.Homelessness_Case_Study.MO_TOTALS`
+  (
+   year
+  ,total_unhoused
+  ,sheltered_total
+  ,unsheltered_total
+  ,total_emergency_overflow_beds
+  )
+  values
+    (
+     2007 
+    ,(SELECT CAST(PARSE_NUMERIC(Overall_Homeless) AS INT64)                FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2007`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Sheltered_Total_Homeless) AS INT64)        FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2007`   WHERE state='MO')
+    ,(SELECT CAST(PARSE_NUMERIC(Unsheltered_Homeless) AS INT64)            FROM `sql-workspace-412218.Homelessness_Case_Study.PIT_2007`   WHERE state='MO')
+    ,(SELECT Total_Overflow_Voucher_ES_Beds                                FROM `sql-workspace-412218.Homelessness_Case_Study.HIC_2007`   WHERE state='MO')
+    );
+
+SELECT * FROM `sql-workspace-412218.Homelessness_Case_Study.MO_TOTALS`
+ORDER BY year DESC
